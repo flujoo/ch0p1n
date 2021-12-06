@@ -35,3 +35,19 @@ def replace(motif, points):
                 k = k + 1
 
     return motif
+
+
+def modify(motif, point, position):
+    """
+    Change the point at a given position.
+    """
+    motif = deepcopy(motif)
+    i, j, *k = position
+
+    if k:
+        k = k[0]
+        motif[i][j][k] = point
+    else:
+        motif[i][j] = point
+
+    return motif
