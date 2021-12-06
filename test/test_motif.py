@@ -1,5 +1,4 @@
 import unittest
-from copy import deepcopy
 from ch0p1n.motif import flatten, replace
 
 
@@ -15,7 +14,6 @@ class Test_flatten(unittest.TestCase):
 
 class Test_replace(unittest.TestCase):
     def test(self):
-        out = deepcopy(motif)
-        replace(out, [6, 6.1, 6.2, 6.3, 6.4])
+        out = replace(motif, [6, 6.1, 6.2, 6.3, 6.4])
         expected = [[6, 6.1], [6.2, [6.3, 6.4]]]
         self.assertEqual(out, expected)

@@ -1,3 +1,6 @@
+from copy import deepcopy
+
+
 def flatten(motif):
     """
     Flatten a motif recursively.
@@ -16,8 +19,9 @@ def flatten(motif):
 
 def replace(motif, points):
     """
-    Replace all the points in a motif on-site.
+    Replace all the points in a motif.
     """
+    motif = deepcopy(motif)
     k = 0
 
     for i, line in enumerate(motif):
@@ -29,3 +33,5 @@ def replace(motif, points):
             else:
                 motif[i][j] = points[k]
                 k = k + 1
+
+    return motif
