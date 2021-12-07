@@ -15,12 +15,9 @@ def is_complete(pitch_motif, harmony, exclude=[]):
 
     # extract pitches
     pitches = flatten(pitch_motif)
-    
-    # remove `None`
-    pitches = [pitch for pitch in pitches if pitch is not None]
 
     # get pitch classes
-    pitch_classes = [pitch % 12 for pitch in pitches]
+    pitch_classes = [pitch % 12 for pitch in pitches if pitch]
 
     # check completeness
     completeness = set(pitch_classes) >= set(harmony)
@@ -74,7 +71,7 @@ def is_isomorphic(pitch_motif, proto, method="contour", which=0):
         line = motif[which]
 
         # remove `None`
-        line = [pitch for pitch in line if pitch is not None]
+        line = [pitch for pitch in line if pitch]
 
         # compare chords' highest pitches
         line = [
