@@ -29,8 +29,12 @@ def transform(pitch_motif, mapping):
         # get the nearest pitch
         # for example, for mapping `{11: 0}` and pitch 59,
         # the resulted pitch should be 60 rather than 48
-        if abs(to - pitch_class) >= 6:
-            to = 12 - to
+        d = to - pitch_class
+
+        if d >= 6:
+            to = to - 12
+        elif d <= -6:
+            to = to + 12
 
         pitches[i] = to + octave*12
 
