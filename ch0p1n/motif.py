@@ -48,3 +48,18 @@ def modify(motif, position, point):
         motif[i][j][k] = point
     else:
         motif[i][j] = point
+
+
+def access(motif, position):
+    """
+    Get the point at the given position.
+    """
+    i, j, *k = position
+
+    if k:
+        k = k[0]
+        point = motif[i][j][k]
+    else:
+        point = motif[i][j]
+    
+    return point
