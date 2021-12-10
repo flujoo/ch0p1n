@@ -76,4 +76,6 @@ def localize(pitch_motif, position, reference, scale, step):
     pitch = transpose_pitch(pitch, scale, step)
 
     # modify the pitch at `position`
-    modify(pitch_motif, position, pitch)
+    motif = modify(pitch_motif, position, pitch)
+
+    return motif

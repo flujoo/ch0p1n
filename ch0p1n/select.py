@@ -11,7 +11,7 @@ def is_complete(pitch_motif, harmony, exclude=[]):
         pitch_motif = deepcopy(pitch_motif)
 
         for position in exclude:
-            modify(pitch_motif, position, None)
+            modify(pitch_motif, position, None, True)
 
     # extract pitches
     pitches = flatten(pitch_motif)

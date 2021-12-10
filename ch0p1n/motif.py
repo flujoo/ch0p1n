@@ -37,10 +37,13 @@ def replace(motif, points):
     return motif
 
 
-def modify(motif, position, point):
+def modify(motif, position, point, on_site=False):
     """
-    Change the point at a given position on-site.
+    Change the point at a given position.
     """
+    if not on_site:
+        motif = deepcopy(motif)
+
     i, j, *k = position
 
     if k:
@@ -48,6 +51,9 @@ def modify(motif, position, point):
         motif[i][j][k] = point
     else:
         motif[i][j] = point
+
+    if not on_site:
+        return motif
 
 
 def access(motif, position):
