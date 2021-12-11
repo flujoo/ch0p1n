@@ -1,4 +1,5 @@
 from copy import deepcopy
+from itertools import chain
 
 
 def flatten(motif):
@@ -69,3 +70,24 @@ def access(motif, position):
         point = motif[i][j]
     
     return point
+
+
+def merge(*motifs):
+    """
+    Merge some motifs into a single one.
+    """
+    motif = [
+        list(chain(*lines))
+        # treat `*motifs` as a matrix and transpose it
+        for lines in zip(*motifs)
+    ]
+
+    return motif
+
+
+def multiply(motif, n):
+    """
+    Replicate a motif some times and merge them.
+    """
+    motif = [line * n for line in motif]
+    return motif
