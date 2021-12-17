@@ -2,7 +2,7 @@ from ch0p1n.motif import flatten, replace
 from itertools import product
 
 
-def lead(pitch_motif, harmony, semitone=2):
+def lead(pitch_motif, harmony, span=range(-2, 3)):
     """
     Adapt a pitch motif to a given harmony,
     according to voice-leading rules,
@@ -13,7 +13,7 @@ def lead(pitch_motif, harmony, semitone=2):
 
     # get each pitch's nearest pitches
     nearest_pitches = [
-        get_nearest_pitches(pitch, harmony, semitone)
+        get_nearest_pitches(pitch, harmony, span)
         for pitch in pitches
     ]
 
@@ -30,15 +30,20 @@ def lead(pitch_motif, harmony, semitone=2):
     return motifs
 
 
-def get_nearest_pitches(pitch, harmony, semitone=2):
+def get_nearest_pitches(pitch, harmony, span=range(-2, 3)):
     """
     Get a pitch's nearest pitches in a given harmony.
+
+    Parameters
+    ----------
+    span: 
+        A range or a list of semitone differences.
     """
     if pitch is None:
         return [None]
 
     # all pitches in the range
-    pitches = range(pitch - semitone, pitch + semitone + 1)
+    pitches = [pitch + d for d in span]
     
     # keep only those which fit the harmony
     pitches = [pitch for pitch in pitches if pitch % 12 in harmony]
