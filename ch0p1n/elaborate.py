@@ -1,4 +1,5 @@
 from ch0p1n.motif import flatten, replace, modify, access
+from ch0p1n.vary import expand, move
 from copy import deepcopy
 
 
@@ -11,8 +12,8 @@ def localize(pitch_motif, position, reference, scale, step):
     pitch = access(pitch_motif, reference)
 
     # transpose the referenced pitch
-    scale = expand_scale(scale)
-    pitch = transpose_pitch(pitch, scale, step)
+    scale = expand(scale)
+    pitch = move(pitch, scale, step)
 
     # modify the pitch at `position`
     motif = modify(pitch_motif, position, pitch)
