@@ -1,5 +1,5 @@
 import unittest
-from ch0p1n.transpose import localize
+from ch0p1n.elaborate import localize
 
 
 class TestLocalize(unittest.TestCase):
