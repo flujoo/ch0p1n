@@ -64,7 +64,7 @@ def span(pitch, scale, steps):
         return []
 
     if (pitch % 12 not in scale) and (0 in steps):
-        steps = [step if step != 0 for step in steps]
+        steps = [step for step in steps if step != 0]
         span(pitch, scale, steps)
 
     pitches = [move(pitch, scale, step) for step in steps]
