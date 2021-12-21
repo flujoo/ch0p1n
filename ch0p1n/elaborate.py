@@ -3,7 +3,7 @@ from ch0p1n.vary import expand, move
 from copy import deepcopy
 
 
-def localize(pitch_motif, position, reference, scale, step):
+def embellish(pitch_motif, position, reference, scale, step):
     """
     Change the pitch at the given position,
     according to some other pitch in the same pitch motif.
