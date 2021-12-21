@@ -110,7 +110,6 @@ def rescale(pitch_motif, mapping):
     mapping: dict
         A dictionary whose keys and values are pitch classes.
     """
-    # extract pitches
     pitches = flatten(pitch_motif)
 
     # map pitches
