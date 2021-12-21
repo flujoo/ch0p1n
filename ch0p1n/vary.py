@@ -139,3 +139,20 @@ def rescale(pitch_motif, mapping):
 
     motif = replace(pitch_motif, pitches)
     return motif
+
+
+def transpose(pitch_motif, scale, step):
+    """
+    Transpose a pitch motif along a given scale.
+    """
+    scale = expand(scale)
+    pitches = flatten(pitch_motif)
+
+    # move pitches
+    pitches = [
+        move(pitch, scale, step)
+        for pitch in pitches
+    ]
+
+    motif = replace(pitch_motif, pitches)
+    return motif
