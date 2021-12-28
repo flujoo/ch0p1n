@@ -79,11 +79,11 @@ def _move2(
     if pitch is None:
         return [None]
 
-    if not steps:
-        return []
-
     if (pitch not in scale) and (0 in steps):
         steps = [step for step in steps if step != 0]
+
+    if not steps:
+        return []
 
     pitches = [_move(pitch, scale, step) for step in steps]
     return pitches
