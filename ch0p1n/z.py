@@ -81,6 +81,8 @@ def _move2(
 
     if (pitch not in scale) and (0 in steps):
         steps = [step for step in steps if step != 0]
+        # `steps` may be empty now,
+        # so the next clause must be after this one
 
     if not steps:
         return []
