@@ -69,7 +69,7 @@ def _move(
 
 def _move2(
         pitch: Optional[Pitch],
-        scale: List[Pitch],
+        scale: List[Pitch], # reified
         steps: List[int]
     ) -> List[Optional[Pitch]]:
 
@@ -219,10 +219,11 @@ def lead(
     """
     
     pitches = _extract(pitch_motif)
+    scale = _reify(harmony)
 
     # get each pitch's nearest pitches
     nearest_pitches = [
-        _move2(pitch, harmony, steps)
+        _move2(pitch, scale, steps)
         for pitch in pitches
     ]
 
@@ -231,8 +232,8 @@ def lead(
 
     if complete:
         pitch_groups = [
-            pitch_group if _is_complete(pitch_group, harmony)
-            for pitch_group in pitch_groups
+            pitch_group for pitch_group in pitch_groups
+            if _is_complete(pitch_group, harmony)
         ]
 
     # generate motifs
@@ -291,7 +292,7 @@ def _access(
 
 
 
-# select pitch motifs ------------------------------------------
+# check harmonic completeness of pitch motifs ------------------
 
 def _is_complete(
         pitches: Union[list, tuple],
@@ -333,13 +334,112 @@ def is_complete(
     return completeness
 
 
-def _contour(
+
+# check morphological similarity of pitch motifs ---------------
+
+def _get_directions(pitches: List[Pitch]) -> List[int]:
+
+    """
+    Get the direction from each pitch to its next.
+    """
+
+    directions = []
+
+    for i, pitch in enumerate(pitches[:-1]):
+        d = pitches[i+1] - pitch
+
+        if d > 0:
+            directions.append(1)
+        elif d < 0:
+            directions.append(-1)
+        else:
+            directions.append(0)
+
+    return directions
+
+
+def _get_ordinals(pitches: List[Pitch]) -> List[int]:
+
+    """
+    Get the ordinals of the given pitches.
+    """
+
+    _ = sorted(set(pitches))
+    ordinals = [_.index(pitch) for pitch in pitches]
+    return ordinals
+
+
+def _measure(
+        start: Pitch,
+        end: Pitch,
+        scale: List[Pitch] # reified
+    ) -> int:
+
+    """
+    Measure the displacement between two pitches on the given scale.
+    """
+
+    for pitch in start, end:
+        if pitch not in scale:
+            scale.append(pitch)
+
+    scale.sort()
+
+    step = scale.index(end) - scale.index(start)
+    return step
+
+
+def _get_steps(
+        pitches: List[Pitch],
+        scale: List[Pitch] # reified
+    ) -> List[int]:
+    
+    """
+    Get the displacement between each two adjacent pitches.
+    """
+
+    steps = [
+        _measure(pitch, pitches[i+1], scale)
+        for i, pitch in enumerate(pitches[:-1])
+    ]
+
+    return steps
+
+
+def is_similar(
         pitch_motif: PitchLine,
-        ordinal: List[Tuple[int, int]] = [],
-    ) -> List[Optional[int]]:
+        proto: PitchLine,
+        method: str = 'direction', # 'ordinal', 'step'
+        scale: List[PitchClass] = []
+    ) -> bool:
 
     """
-    Get the contour of a pitch motif.
+    Check if a pitch motif has a similar contour to the prototype.
     """
 
-    pass
+    # get the contour of a pitch motif
+    def get_contour(pitch_motif):
+        
+        # extract pitches
+        pitches = [
+            # keep only the highest pitch in a chord
+            max(item) if isinstance(item, list) else item
+            # remove `None`
+            for item in pitch_motif if item
+        ]
+
+        # get contour
+        if method == 'direction':
+            contour = _get_directions(pitches)
+        elif method == 'ordinal':
+            contour = _get_ordinals(pitches)
+        elif method == 'step':
+            contour = _get_steps(pitches, scale)
+
+        return contour
+
+    if scale:
+        scale = _reify(scale)
+
+    similarity = get_contour(pitch_motif) == get_contour(proto)
+    return similarity
