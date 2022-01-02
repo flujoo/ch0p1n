@@ -418,7 +418,7 @@ def is_similar(
     """
 
     # get the contour of a pitch motif
-    def get_contour(pitch_motif):
+    def _get_contour(pitch_motif):
         
         # extract pitches
         pitches = [
@@ -441,5 +441,5 @@ def is_similar(
     if scale:
         scale = _reify(scale)
 
-    similarity = get_contour(pitch_motif) == get_contour(proto)
+    similarity = _get_contour(pitch_motif) == _get_contour(proto)
     return similarity
