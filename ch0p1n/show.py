@@ -1,10 +1,57 @@
 import music21
+from typing import List
+from ch0p1n.motif import PitchLine, DurationLine
 
 
-def show(pitch_motif, duration_motif, partition=1, key=0,
-         meter='4/4', clefs=['g', 'f']):
+
+# show music ---------------------------------------------------
+
+def _to_stream(
+        pitch_lines: List[PitchLine],
+        duration_lines: List[DurationLine]
+    ) -> music21.stream.Stream:
+    
     """
-    Show motif.
+    Merge the given pitch and duration lines into
+    a music21 Stream object.
+    """
+    
+    stream = music21.stream.Stream()
+
+    for i, line in enumerate(pitch_lines):
+        voice = music21.stream.Voice()
+
+        for j, item in enumerate(line):
+            duration = duration_lines[i][j]
+            duration = music21.duration.Duration(duration)
+
+            if isinstance(item, int):
+                construct = music21.note.Note
+            elif isinstance(item, list):
+                construct = music21.chord.Chord
+            else:
+                construct = music21.note.Rest
+
+            item = construct(item, duration=duration)
+            voice.append(item)
+
+        voice.id = str(i+1)
+        stream.insert(0, voice)
+
+    return stream
+
+
+def show(
+        pitch_lines: List[PitchLine],
+        duration_lines: List[DurationLine],
+        partition: int = 1,
+        key: int = 0,
+        meter: str = '4/4',
+        clefs: List[str] = ['g', 'f']
+    ) -> None:
+    
+    """
+    Show music.
 
     Parameters
     ----------
@@ -13,10 +60,11 @@ def show(pitch_motif, duration_motif, partition=1, key=0,
 
     Examples
     --------
-    >>> pitch_motif = [[60, [62, 63]], [None, 40]]
-    >>> duration_motif = [[1, 1], [1, 1]]
-    >>> show(pitch_motif, duration_motif)
+    >>> pitch_lines = [[60, [62, 63]], [None, 40]]
+    >>> duration_lines = [[1, 1], [1, 1]]
+    >>> show(pitch_lines, duration_lines)
     """
+    
     # convert `key` and `meter` to music21 objects
     key = music21.key.KeySignature(key)
     meter = music21.meter.TimeSignature(meter)
@@ -41,28 +89,28 @@ def show(pitch_motif, duration_motif, partition=1, key=0,
     score.append([layout, staff_1, staff_2])
 
     # total duration
-    duration = sum(duration_motif[0])
+    duration = sum(duration_lines[0])
     # number of lines
-    l = len(pitch_motif)
+    l = len(pitch_lines)
 
     # assign lines to staffs
     if partition == 0:
-        stream_1 = to_stream([[None]], [[duration]])     
-        stream_2 = to_stream(pitch_motif, duration_motif)
+        stream_1 = _to_stream([[None]], [[duration]])     
+        stream_2 = _to_stream(pitch_lines, duration_lines)
         
     elif partition == l:
-        stream_1 = to_stream(pitch_motif, duration_motif)
-        stream_2 = to_stream([[None]], [[duration]])
+        stream_1 = _to_stream(pitch_lines, duration_lines)
+        stream_2 = _to_stream([[None]], [[duration]])
 
     else:
-        stream_1 = to_stream(
-            pitch_motif[0:partition],
-            duration_motif[0:partition]
+        stream_1 = _to_stream(
+            pitch_lines[0:partition],
+            duration_lines[0:partition]
         )
 
-        stream_2 = to_stream(
-            pitch_motif[partition:],
-            duration_motif[partition:]
+        stream_2 = _to_stream(
+            pitch_lines[partition:],
+            duration_lines[partition:]
         )
 
     for voice in stream_1:
@@ -80,33 +128,3 @@ def show(pitch_motif, duration_motif, partition=1, key=0,
     score[1][0].insert(0, key)
 
     score.show('xml')
-
-
-def to_stream(pitch_motif, duration_motif):
-    """
-    Merge a pitch motif and its duration motif into
-    a music21 Stream object.
-    """
-    stream = music21.stream.Stream()
-
-    for i, line in enumerate(pitch_motif):
-        voice = music21.stream.Voice()
-
-        for j, cluster in enumerate(line):
-            duration = duration_motif[i][j]
-            duration = music21.duration.Duration(duration)
-
-            if isinstance(cluster, int):
-                construct = music21.note.Note
-            elif isinstance(cluster, list):
-                construct = music21.chord.Chord
-            else:
-                construct = music21.note.Rest
-
-            cluster = construct(cluster, duration=duration)
-            voice.append(cluster)
-
-        voice.id = str(i+1)
-        stream.insert(0, voice)
-
-    return stream
