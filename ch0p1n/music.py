@@ -44,7 +44,7 @@ def _to_stream(
 def show(
         pitch_lines: List[PitchLine],
         duration_lines: List[DurationLine],
-        partition: int = 1,
+        group: int = 1,
         key: int = 0,
         meter: str = '4/4',
         clefs: List[str] = ['g', 'f']
@@ -55,7 +55,7 @@ def show(
 
     Parameters
     ----------
-    partition: int
+    group: int
         The number of voices in the treble staff.
 
     Examples
@@ -94,23 +94,23 @@ def show(
     l = len(pitch_lines)
 
     # assign lines to staffs
-    if partition == 0:
+    if group == 0:
         stream_1 = _to_stream([[None]], [[duration]])     
         stream_2 = _to_stream(pitch_lines, duration_lines)
         
-    elif partition == l:
+    elif group == l:
         stream_1 = _to_stream(pitch_lines, duration_lines)
         stream_2 = _to_stream([[None]], [[duration]])
 
     else:
         stream_1 = _to_stream(
-            pitch_lines[0:partition],
-            duration_lines[0:partition]
+            pitch_lines[0:group],
+            duration_lines[0:group]
         )
 
         stream_2 = _to_stream(
-            pitch_lines[partition:],
-            duration_lines[partition:]
+            pitch_lines[group:],
+            duration_lines[group:]
         )
 
     for voice in stream_1:
