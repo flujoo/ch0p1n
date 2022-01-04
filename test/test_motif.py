@@ -7,6 +7,7 @@ from ch0p1n.motif import (
     _replace,
     rescale,
     transpose,
+    _access,
     is_complete,
     is_similar
 )
@@ -86,6 +87,27 @@ class TestTranspose(unittest.TestCase):
         scale = [0, 2, 4, 5, 7, 9, 11]
         out = transpose(self.motif, scale, 1)
         expected = [62, [64, 64], None]
+        self.assertEqual(out, expected)
+
+
+class Test_access(unittest.TestCase):
+    position = (0, 1)
+    pitch_line = [[60, 61], None]
+    duration_line = [1, 2]
+
+    def test_pitch_line(self):
+        out = _access(self.pitch_line, self.position)
+        expected = 61
+        self.assertEqual(out, expected)
+
+    def test_pitch_line_list(self):
+        out = _access(self.pitch_line, 0)
+        expected = [60, 61]
+        self.assertEqual(out, expected)
+
+    def test_duration_line(self):
+        out = _access(self.duration_line, self.position)
+        expected = 1
         self.assertEqual(out, expected)
 
 

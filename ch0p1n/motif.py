@@ -274,19 +274,25 @@ def _modify(
 
 
 def _access(
-        pitch_motif: PitchLine,
+        line: Union[PitchLine, DurationLine],
         position: Union[int, Tuple[int, int]]
-    ) -> Union[Pitch, None, List[Pitch]]:
+    ) -> Union[Pitch, None, List[Pitch], Duration]:
     
     """
-    Get the item at the given position from a pitch motif.
+    Get the item at the given position from a pitch or duration line.
     """
 
     if isinstance(position, int):
-        item = pitch_motif[position]
+        item = line[position]
     else:
         i, j = position
-        item = pitch_motif[i][j]
+
+        # the idea behind the following code is that
+        # the position used to get item from a pitch line
+        # may be re-used to get item from a duration line
+        item = line[i]
+        if isinstance(item, list):
+            item = item[j]
     
     return item
 
