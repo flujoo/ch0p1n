@@ -9,7 +9,8 @@ from ch0p1n.motif import (
     transpose,
     _access,
     is_complete,
-    is_similar
+    is_similar,
+    divide
 )
 
 
@@ -138,3 +139,15 @@ class TestIsSimilar(unittest.TestCase):
     def test_ordinals(self):
         out = is_similar(self.motif, self.proto, method="ordinal")
         self.assertFalse(out)
+
+
+class TestDivide(unittest.TestCase):
+    def test(self):
+        pitch_motif = [60, [61, 62], None]
+        duration_motif = [1, 2, 3]
+        out = divide(pitch_motif, duration_motif, 1, 4)
+        expected = (
+            [60, [61, 62], [61, 62], [61, 62], [61, 62], None],
+            [1, 0.5, 0.5, 0.5, 0.5, 3]
+        )
+        self.assertEqual(out, expected)
