@@ -481,3 +481,103 @@ def divide(
         duration_motif[i+1:]
 
     return pitch_motif, duration_motif
+
+
+def _get_i(position: Union[int, Tuple[int, int]]) -> int:
+
+    """
+    Get the first element from the given position.
+    """
+
+    if isinstance(position, tuple):
+        position = position[0]
+
+    return position
+
+
+def elaborate(
+        pitch_motif: PitchLine,
+        duration_motif: DurationLine,
+        reference: Union[int, Tuple[int, int]],
+        steps: List[int],
+        scale: List[PitchClass],
+        position: str = 'left', # 'right', 'previous', 'next'
+        relative: bool = True,
+        ratio: Optional[float] = None,
+        duration: Optional[Duration] = None
+    ) -> Tuple[PitchLine, DurationLine]:
+
+    """
+    Add notes or chords to the given motif.
+    """
+
+    i = _get_i(reference)
+    n = len(steps)
+    l = len(duration_motif)
+
+    if duration and duration > 0:
+        duration = -duration
+
+    # add pitches ----------------------------------------------
+
+    # get the reference pitch
+    pitch = _access(pitch_motif, reference)
+
+    # generate pitches
+    if isinstance(pitch, list):
+        method = transpose
+    else:
+        scale = _reify(scale)
+        method = _move
+    
+    if relative:
+        pitches = []
+        current = pitch
+        for step in steps:
+            new = method(current, scale, step)
+            pitches.append(new)
+            current = new
+    else:
+        pitches = [method(pitch, scale, step) for step in steps]
+
+    # insert `pitches`
+    if position in ['left', 'previous']:
+        pitches.reverse()
+        pitch_motif = pitch_motif[:i] + pitches + pitch_motif[i:]
+    elif position in ['right', 'next']:
+        pitch_motif = pitch_motif[:i+1] + pitches + pitch_motif[i+1:]
+
+    # add durations --------------------------------------------
+
+    # get the reference duration
+    if position in ['left', 'right']:
+        duration = duration_motif[i]
+    elif (position == 'previous') and (i > 0):
+        duration = duration_motif[i-1]
+    elif (position == 'next') and (i < l-1):
+        duration = duration_motif[i+1]
+    # or `duration` must be provided
+
+    # generate durations
+    if not ratio:
+        durations = [duration/(n+1)] * (n+1)
+    elif position in ['left', 'next']:
+        durations = [duration*ratio/n]*n + [duration*(1-ratio)]
+    elif position in ['right', 'previous']:
+        durations = [duration*(1-ratio)] + [duration*ratio/n]*n
+
+    # insert `durations`
+    if (position == 'previous') and (i == 0):
+        duration_motif = durations[1:] + duration_motif
+    elif (position == 'next') and (i == l-1):
+        duration_motif = duration_motif + durations[:-1]
+    else:
+        if position == 'previous':
+            i = i - 1
+        elif position == 'next':
+            i = i + 1
+
+        duration_motif = duration_motif[:i] + durations + \
+            duration_motif[i+1:]
+
+    return pitch_motif, duration_motif
