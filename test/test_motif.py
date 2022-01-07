@@ -10,7 +10,8 @@ from ch0p1n.motif import (
     _access,
     is_complete,
     is_similar,
-    divide
+    divide,
+    elaborate
 )
 
 
@@ -149,5 +150,41 @@ class TestDivide(unittest.TestCase):
         expected = (
             [60, [61, 62], [61, 62], [61, 62], [61, 62], None],
             [1, 0.5, 0.5, 0.5, 0.5, 3]
+        )
+        self.assertEqual(out, expected)
+
+
+class TestElaborate(unittest.TestCase):
+    # Beethoven Sonata No.1
+    pitch_motif = [80, 77, None]
+    duration_motif = [2, 1, 1]
+    scale = [5, 7, 8, 10, 0, 1, 4]
+    steps = [-1, -1, -1]
+
+    def test_right(self):
+        out = elaborate(self.pitch_motif, self.duration_motif, 0,
+            self.scale, self.steps, 'right', 1/4)
+        expected = (
+            [80, 79, 77, 76, 77, None],
+            [1.5, 1/6, 1/6, 1/6, 1, 1]
+        )
+        self.assertEqual(out, expected)
+
+    def test_right_absolute(self):
+        out = elaborate(self.pitch_motif, self.duration_motif, 0,
+            self.scale, self.steps, 'right', 1/4, False)
+        expected = (
+            [80, 79, 79, 79, 77, None],
+            [1.5, 1/6, 1/6, 1/6, 1, 1]
+        )
+        self.assertEqual(out, expected)
+
+    def test_right_chord(self):
+        pitch_motif = [[80, 84], 77, None]
+        out = elaborate(pitch_motif, self.duration_motif, 0,
+            self.scale, self.steps, 'right', 1/4)
+        expected = (
+            [[80, 84], [79, 82], [77, 80], [76, 79], 77, None],
+            [1.5, 1/6, 1/6, 1/6, 1, 1]
         )
         self.assertEqual(out, expected)
