@@ -499,11 +499,11 @@ def elaborate(
         pitch_motif: PitchLine,
         duration_motif: DurationLine,
         reference: Union[int, Tuple[int, int]],
-        steps: List[int],
         scale: List[PitchClass],
-        position: str = 'left', # 'right', 'previous', 'next'
-        relative: bool = True,
+        steps: List[int],
+        position: str = 'right', # 'left', 'previous', 'next'
         ratio: Optional[float] = None,
+        relative: bool = True,
         duration: Optional[Duration] = None
     ) -> Tuple[PitchLine, DurationLine]:
 
