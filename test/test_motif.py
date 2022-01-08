@@ -226,6 +226,16 @@ class TestElaborate(unittest.TestCase):
         )
         self.assertEqual(out, expected)
 
+    def test_next_last(self):
+        pitch_motif = [80, 77, 80]
+        out = elaborate(pitch_motif, self.duration_motif, 2,
+            self.scale, self.steps, 'next', duration = 4)
+        expected = (
+            [80, 77, 80, 79, 77, 76],
+            [2, 1, 1, -1, -1, -1]
+        )
+        self.assertEqual(out, expected)
+
 
 class TestToPitchLine(unittest.TestCase):
     def test(self):
