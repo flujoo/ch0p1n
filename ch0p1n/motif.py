@@ -8,8 +8,9 @@ from itertools import product
 
 Pitch = int
 PitchClass = int
-PitchLine = List[Union[Pitch, None, List[Pitch]]]
+# pitches and pitch classes are represented by MIDI note numbers
 
+PitchLine = List[Union[Pitch, None, List[Pitch]]]
 # the term "pitch line" denotes the pitch content of musical line
 # the same goes for "duration line"
 
