@@ -618,7 +618,7 @@ def _to_pitch(notation: str) -> Pitch:
     return pitch
 
 
-def to_pitch_line(notation_line) -> None:
+def to_pitch_line(notation_line: list) -> None:
 
     """
     Convert any notation to pitch in place.
