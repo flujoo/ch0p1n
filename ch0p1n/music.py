@@ -23,6 +23,7 @@ def _to_stream(
 
         for j, item in enumerate(line):
             duration = duration_lines[i][j]
+            duration = abs(duration) # see `elaborate`
             duration = music21.duration.Duration(duration)
 
             if isinstance(item, int):
