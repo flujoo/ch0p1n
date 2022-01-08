@@ -11,7 +11,8 @@ from ch0p1n.motif import (
     is_complete,
     is_similar,
     divide,
-    elaborate
+    elaborate,
+    to_pitch_line
 )
 
 
@@ -188,3 +189,11 @@ class TestElaborate(unittest.TestCase):
             [1.5, 1/6, 1/6, 1/6, 1, 1]
         )
         self.assertEqual(out, expected)
+
+
+class TestToPitchLine(unittest.TestCase):
+    def test(self):
+        notation_line = [60, 'B-5', None, [61, 'c##2']]
+        to_pitch_line(notation_line)
+        expected = [60, 82, None, [61, 38]]
+        self.assertEqual(notation_line, expected)
