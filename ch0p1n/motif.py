@@ -582,3 +582,37 @@ def elaborate(
             duration_motif[i+1:]
 
     return pitch_motif, duration_motif
+
+
+
+# notations -> MIDI note numbers -------------------------------
+
+def _to_pitch(notation: str) -> Pitch:
+
+    """
+    Convert the given notation to pitch.
+    """
+
+    note_names = {
+        'C': 0,
+        'D': 2,
+        'E': 4,
+        'F': 5,
+        'G': 7,
+        'A': 9,
+        'B': 11
+    }
+
+    accidentals = {
+        '': 0,
+        '#': 1,
+        '##': 2,
+        '-': -1,
+        '--': -2
+    }
+
+    pitch = note_names[notation[0].upper()] + \
+        12 * (int(notation[-1]) + 1) + \
+        accidentals[notation[1:-1]]
+
+    return pitch
