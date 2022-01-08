@@ -628,6 +628,6 @@ def to_pitch_line(notation_line) -> None:
         if isinstance(item, str):
             notation_line[i] = _to_pitch(item)
         elif isinstance(item, list):
-            for j, pitch in enumerate(item):
-                if isinstance(pitch, str):
-                    notation_line[i][j] = _to_pitch(pitch)
+            for j, notation in enumerate(item):
+                if isinstance(notation, str):
+                    notation_line[i][j] = _to_pitch(notation)
