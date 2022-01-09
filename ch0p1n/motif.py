@@ -656,18 +656,19 @@ def divide(
 
     for i, duration in enumerate(duration_motif):
         # check if to start new motif
-        ds = sum(dm) + duration
+        l_dm = sum(dm)
+        l_d = l_dm + duration
 
-        if ds <= l:
+        if l_d <= l:
             pm.append(pitch_motif[i])
             dm.append(duration)
-            if ds == l:
+            if l_d == l:
                 motif = pm, dm
                 motifs.append(motif)
                 pm = []
                 dm = []
         else:
-            d1 = l - sum(dm)
+            d1 = l - l_dm
             d2 = duration - d1
             pitch = pitch_motif[i]
             pm.append(pitch)
