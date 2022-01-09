@@ -679,3 +679,33 @@ def divide(
             dm = [d2]
 
     return motifs
+
+
+def fragment(
+        pitch_motif: PitchLine,
+        duration_motif: DurationLine,
+        start: int = 0,
+        end: int = -1,
+        ratio: Union[float, int, None] = None,
+        fit: str = 'right' # 'left'
+    ) -> Tuple[PitchLine, DurationLine]:
+
+    """
+    Take a slice of a motif. 
+    """
+
+    pm = pitch_motif[start:end+1]
+    dm = duration_motif[start:end+1]
+
+    if ratio:
+        # length constraint on the motif
+        l = sum(duration_motif) * ratio
+        l_dm = sum(dm)
+        d = l - l_dm
+
+        if fit == 'right':
+            dm[-1] = dm[-1] + d
+        elif fit == 'left':
+            dm[0] = dm[0] + d
+
+    return pm, dm
