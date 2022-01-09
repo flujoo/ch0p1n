@@ -631,3 +631,50 @@ def to_pitch_line(notation_line: list) -> None:
             for j, notation in enumerate(item):
                 if isinstance(notation, str):
                     notation_line[i][j] = _to_pitch(notation)
+
+
+
+# fragment motifs ----------------------------------------------
+
+def divide(
+        pitch_motif: PitchLine,
+        duration_motif: DurationLine,
+        n: int
+    ) -> List[Tuple[PitchLine, DurationLine]]:
+    
+    """
+    Divide a motif into parts of equal durations.
+    """
+
+    # the length of each part
+    l = sum(duration_motif) / n
+
+    motifs = []
+    # current motif
+    pm = []
+    dm = []
+
+    for i, duration in enumerate(duration_motif):
+        # check if to start new motif
+        ds = sum(dm) + duration
+
+        if ds <= l:
+            pm.append(pitch_motif[i])
+            dm.append(duration)
+            if ds == l:
+                motif = pm, dm
+                motifs.append(motif)
+                pm = []
+                dm = []
+        else:
+            d1 = l - sum(dm)
+            d2 = duration - d1
+            pitch = pitch_motif[i]
+            pm.append(pitch)
+            dm.append(d1)
+            motif = pm, dm
+            motifs.append(motif)
+            pm = [pitch]
+            dm = [d2]
+
+    return motifs

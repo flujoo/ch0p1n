@@ -12,7 +12,8 @@ from ch0p1n.motif import (
     is_similar,
     repeat,
     elaborate,
-    to_pitch_line
+    to_pitch_line,
+    divide
 )
 
 
@@ -243,3 +244,25 @@ class TestToPitchLine(unittest.TestCase):
         to_pitch_line(notation_line)
         expected = [60, 82, None, [61, 38]]
         self.assertEqual(notation_line, expected)
+
+
+class TestDivide(unittest.TestCase):
+    pitch_motif = [60, 61, 62]
+    duration_motif = [2, 2, 2]
+
+    def test(self):
+        out = divide(self.pitch_motif, self.duration_motif, 3)
+        expected = [
+            ([60], [2]),
+            ([61], [2]),
+            ([62], [2])
+        ]
+        self.assertEqual(out, expected)
+
+    def test_slur(self):
+        out = divide(self.pitch_motif, self.duration_motif, 2)
+        expected = [
+            ([60, 61], [2, 1]),
+            ([61, 62], [1, 2])
+        ]
+        self.assertEqual(out, expected)
