@@ -455,7 +455,7 @@ def is_similar(
 
 # elaborate motifs ---------------------------------------------
 
-def divide(
+def repeat(
         pitch_motif: PitchLine,
         duration_motif: DurationLine,
         i: int,
@@ -471,11 +471,11 @@ def divide(
     pitch = pitch_motif[i]
     duration = duration_motif[i]
 
-    # divide the note or chord
+    # repeat the note or chord
     pitches = [pitch] * n
     durations = [duration/n] * n
 
-    # insert the divided
+    # insert the notes or chords
     # no need to use `deepcopy` here
     pitch_motif = pitch_motif[:i] + pitches + pitch_motif[i+1:]
     duration_motif = duration_motif[:i] + durations + \

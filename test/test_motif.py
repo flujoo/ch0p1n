@@ -10,7 +10,7 @@ from ch0p1n.motif import (
     _access,
     is_complete,
     is_similar,
-    divide,
+    repeat,
     elaborate,
     to_pitch_line
 )
@@ -143,11 +143,11 @@ class TestIsSimilar(unittest.TestCase):
         self.assertFalse(out)
 
 
-class TestDivide(unittest.TestCase):
+class TestRepeat(unittest.TestCase):
     def test(self):
         pitch_motif = [60, [61, 62], None]
         duration_motif = [1, 2, 3]
-        out = divide(pitch_motif, duration_motif, 1, 4)
+        out = repeat(pitch_motif, duration_motif, 1, 4)
         expected = (
             [60, [61, 62], [61, 62], [61, 62], [61, 62], None],
             [1, 0.5, 0.5, 0.5, 0.5, 3]
