@@ -13,7 +13,8 @@ from ch0p1n.motif import (
     repeat,
     elaborate,
     to_pitch_line,
-    divide
+    divide,
+    fragment
 )
 
 
@@ -265,4 +266,14 @@ class TestDivide(unittest.TestCase):
             ([60, 61], [2, 1]),
             ([61, 62], [1, 2])
         ]
+        self.assertEqual(out, expected)
+
+
+class TestFragment(unittest.TestCase):
+    def test(self):
+        pitch_motif = [60, 61, 62, 63]
+        duration_motif = [1, 2, 1/2, 1/2]
+        out = fragment(pitch_motif, duration_motif, end = 1,
+            ratio = 1/2)
+        expected = ([60, 61], [1, 1])
         self.assertEqual(out, expected)
