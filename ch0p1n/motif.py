@@ -41,14 +41,14 @@ def _reify(scale: List[PitchClass]) -> List[Pitch]:
 def _move(
         pitch: Optional[Pitch],
         scale: List[Pitch], # reified
-        step: int
+        step: Optional[int] # for `elaborate`
     ) -> Optional[Pitch]:
 
     """
     Move a pitch along a scale by certain number of steps.
     """
 
-    if pitch is None:
+    if (not pitch) or (not step):
         return None
 
     if pitch not in scale:
@@ -71,7 +71,7 @@ def _move(
 def _move2(
         pitch: Optional[Pitch],
         scale: List[Pitch], # reified
-        steps: List[int]
+        steps: List[Optional[int]]
     ) -> List[Optional[Pitch]]:
 
     """
