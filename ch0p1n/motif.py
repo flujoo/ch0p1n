@@ -78,7 +78,7 @@ def _move2(
     Move a pitch along a scale by different numbers of steps.
     """
 
-    if pitch is None:
+    if not pitch:
         return [None]
 
     if (pitch not in scale) and (0 in steps):
