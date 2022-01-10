@@ -456,35 +456,6 @@ def is_similar(
 
 # elaborate motifs ---------------------------------------------
 
-def repeat(
-        pitch_motif: PitchLine,
-        duration_motif: DurationLine,
-        i: int,
-        n: int
-    ) -> Tuple[PitchLine, DurationLine]:
-    
-    """
-    Divide the note or chord at the given index
-    of the given motif into several equal parts.
-    """
-
-    # get the note or chord
-    pitch = pitch_motif[i]
-    duration = duration_motif[i]
-
-    # repeat the note or chord
-    pitches = [pitch] * n
-    durations = [duration/n] * n
-
-    # insert the notes or chords
-    # no need to use `deepcopy` here
-    pitch_motif = pitch_motif[:i] + pitches + pitch_motif[i+1:]
-    duration_motif = duration_motif[:i] + durations + \
-        duration_motif[i+1:]
-
-    return pitch_motif, duration_motif
-
-
 def _get_i(position: Union[int, Tuple[int, int]]) -> int:
 
     """
