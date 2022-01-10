@@ -26,6 +26,10 @@ class Test_move(unittest.TestCase):
         out = _move(None, self.scale, 1)
         self.assertIsNone(out)
 
+    def test_step_none(self):
+        out = _move(self.pitch, self.scale, None)
+        self.assertIsNone(out)
+
     def test_step_0(self):
         out = _move(self.pitch, self.scale, 0)
         self.assertIsNone(out)
