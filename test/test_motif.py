@@ -242,6 +242,15 @@ class TestElaborate(unittest.TestCase):
         )
         self.assertEqual(out, expected)
 
+    def test_none_0(self):
+        out = elaborate(self.pitch_motif, self.duration_motif, 0,
+            [0, None], self.scale, 'right')
+        expected = (
+            [80, 80, None, 77, None],
+            [2/3, 2/3, 2/3, 1, 1]
+        )
+        self.assertEqual(out, expected)
+
 
 class TestToPitchLine(unittest.TestCase):
     def test(self):
