@@ -170,7 +170,7 @@ class TestElaborate(unittest.TestCase):
 
     def test_right(self):
         out = elaborate(self.pitch_motif, self.duration_motif, 0,
-            self.scale, self.steps, 'right', 1/4)
+            self.steps, self.scale, 'right', 1/4)
         expected = (
             [80, 79, 77, 76, 77, None],
             [1.5, 1/6, 1/6, 1/6, 1, 1]
@@ -179,7 +179,7 @@ class TestElaborate(unittest.TestCase):
 
     def test_right_absolute(self):
         out = elaborate(self.pitch_motif, self.duration_motif, 0,
-            self.scale, self.steps, 'right', 1/4, False)
+            self.steps, self.scale, 'right', 1/4, False)
         expected = (
             [80, 79, 79, 79, 77, None],
             [1.5, 1/6, 1/6, 1/6, 1, 1]
@@ -189,7 +189,7 @@ class TestElaborate(unittest.TestCase):
     def test_right_chord(self):
         pitch_motif = [[80, 84], 77, None]
         out = elaborate(pitch_motif, self.duration_motif, 0,
-            self.scale, self.steps, 'right', 1/4)
+            self.steps, self.scale, 'right', 1/4)
         expected = (
             [[80, 84], [79, 82], [77, 80], [76, 79], 77, None],
             [1.5, 1/6, 1/6, 1/6, 1, 1]
@@ -198,7 +198,7 @@ class TestElaborate(unittest.TestCase):
 
     def test_left(self):
         out = elaborate(self.pitch_motif, self.duration_motif, 0,
-            self.scale, self.steps, 'left')
+            self.steps, self.scale, 'left')
         expected = (
             [76, 77, 79, 80, 77, None],
             [0.5, 0.5, 0.5, 0.5, 1, 1]
@@ -207,7 +207,7 @@ class TestElaborate(unittest.TestCase):
 
     def test_previous(self):
         out = elaborate(self.pitch_motif, self.duration_motif, 1,
-            self.scale, self.steps, 'previous')
+            self.steps, self.scale, 'previous')
         expected = (
             [80, 72, 73, 76, 77, None],
             [0.5, 0.5, 0.5, 0.5, 1, 1]
@@ -216,7 +216,7 @@ class TestElaborate(unittest.TestCase):
 
     def test_previous_0(self):
         out = elaborate(self.pitch_motif, self.duration_motif, 0,
-            self.scale, self.steps, 'previous', duration = 4)
+            self.steps, self.scale, 'previous', duration = 4)
         expected = (
             [76, 77, 79, 80, 77, None],
             [-1, -1, -1, 2, 1, 1]
@@ -225,7 +225,7 @@ class TestElaborate(unittest.TestCase):
 
     def test_next(self):
         out = elaborate(self.pitch_motif, self.duration_motif, 0,
-            self.scale, self.steps, 'next', 1/2)
+            self.steps, self.scale, 'next', 1/2)
         expected = (
             [80, 79, 77, 76, 77, None],
             [2, 1/6, 1/6, 1/6, 1/2, 1]
@@ -235,7 +235,7 @@ class TestElaborate(unittest.TestCase):
     def test_next_last(self):
         pitch_motif = [80, 77, 80]
         out = elaborate(pitch_motif, self.duration_motif, 2,
-            self.scale, self.steps, 'next', duration = 4)
+            self.steps, self.scale, 'next', duration = 4)
         expected = (
             [80, 77, 80, 79, 77, 76],
             [2, 1, 1, -1, -1, -1]

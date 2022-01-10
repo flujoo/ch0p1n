@@ -500,8 +500,8 @@ def elaborate(
         pitch_motif: PitchLine,
         duration_motif: DurationLine,
         reference: Union[int, Tuple[int, int]],
-        scale: List[PitchClass],
-        steps: List[int],
+        steps: List[Optional[int]],
+        scale: List[PitchClass] = list(range(12)),
         position: str = 'right', # 'left', 'previous', 'next'
         ratio: Optional[float] = None,
         relative: bool = True,
