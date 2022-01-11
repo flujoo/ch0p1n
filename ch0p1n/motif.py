@@ -473,7 +473,7 @@ def elaborate(
         duration_motif: DurationLine,
         reference: Union[int, Tuple[int, int]],
         steps: List[Optional[int]],
-        scale: List[PitchClass] = list(range(12)),
+        scale: Optional[List[PitchClass]] = None,
         position: str = 'right', # 'left', 'previous', 'next'
         ratio: Optional[float] = None,
         relative: bool = True,
@@ -497,21 +497,29 @@ def elaborate(
     pitch = _access(pitch_motif, reference)
 
     # generate pitches
-    if isinstance(pitch, list):
-        method = transpose
-    else:
-        scale = _reify(scale)
-        method = _move
-    
-    if relative:
-        pitches = []
-        current = pitch
-        for step in steps:
-            new = method(current, scale, step)
+    pitches = []
+    current = pitch
+    reified = False
+
+    for step in steps:
+        if step is None:
+            pitches.append(None)
+        elif step == 0:
+            pitches.append(current)
+        else:
+            if not reified:
+                scale = _reify(scale)
+                reified = True
+
+            if not isinstance(current, list):
+                new = _move(current, scale, step)
+            else:
+                new = [_move(p, scale, step) for p in current]
+
             pitches.append(new)
-            current = new
-    else:
-        pitches = [method(pitch, scale, step) for step in steps]
+
+            if relative:
+                current = new
 
     # insert `pitches`
     if position in ['left', 'previous']:
