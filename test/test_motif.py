@@ -230,10 +230,11 @@ class TestElaborate(unittest.TestCase):
         self.assertEqual(out, expected)
 
     def test_none_0(self):
-        out = elaborate(self.pitch_motif, self.duration_motif, 0,
+        pitch_motif = [[80, 81], 77, None]
+        out = elaborate(pitch_motif, self.duration_motif, 0,
             [0, None], self.scale, 'right')
         expected = (
-            [80, 80, None, 77, None],
+            [[80, 81], [80, 81], None, 77, None],
             [2/3, 2/3, 2/3, 1, 1]
         )
         self.assertEqual(out, expected)
