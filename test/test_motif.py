@@ -12,6 +12,7 @@ from ch0p1n.motif import (
     is_similar,
     elaborate,
     to_pitch_line,
+    _get_scale,
     divide,
     fragment
 )
@@ -246,6 +247,13 @@ class TestToPitchLine(unittest.TestCase):
         to_pitch_line(notation_line)
         expected = [60, 82, None, [61, 38]]
         self.assertEqual(notation_line, expected)
+
+
+class Test_get_scale(unittest.TestCase):
+    def test(self):
+        out = _get_scale(7)
+        expected = ['F#', 'C#', 'G#', 'D#', 'A#', 'E#', 'B#']
+        self.assertEqual(out, expected)
 
 
 class TestDivide(unittest.TestCase):

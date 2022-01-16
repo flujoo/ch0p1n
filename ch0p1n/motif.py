@@ -614,6 +614,30 @@ def to_pitch_line(notation_line: list) -> None:
 
 
 
+# MIDI note numbers -> notations -------------------------------
+
+def _get_scale(key: int) -> List[str]:
+
+    """
+    Get the pitch classes that make the major scale of the given key.
+    """
+
+    note_names = ['F', 'C', 'G', 'D', 'A', 'E', 'B']
+
+    if key >= 0:
+        accidentals = ['#']*key + ['']*(7-key)
+    else:
+        accidentals = ['']*(7+key) + ['-']*(-key)
+
+    pitch_classes = [
+        note_name + accidentals[i]
+        for i, note_name in enumerate(note_names)
+    ]
+
+    return pitch_classes
+
+
+
 # fragment motifs ----------------------------------------------
 
 def divide(
