@@ -637,6 +637,39 @@ def _get_scale(key: int) -> List[str]:
     return pitch_classes
 
 
+def _to_notations(pitch: Pitch) -> List[str]:
+
+    """
+    Convert the given pitch to equivalent notations.
+    """
+
+    notations = []
+    pitch_class = pitch % 12
+    octave = pitch//12 - 1
+
+    for alter in range(-2, 3):
+        pc = pitch_class - alter
+
+        if pc < 0:
+            o = octave - 1
+        elif pc > 11:
+            o = octave + 1
+        else:
+            o = octave
+
+        try:
+            i = [0, 2, 4, 5, 7, 9, 11].index(pc % 12)
+        except:
+            continue
+        
+        step = ['C', 'D', 'E', 'F', 'G', 'A', 'B'][i]
+        acci = {0: '', 1: '#', 2: '##', -1: '-', -2: '--'}[alter]
+        notation = step + acci + str(o)
+        notations.append(notation)
+
+    return notations
+
+
 
 # fragment motifs ----------------------------------------------
 
