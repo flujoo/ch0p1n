@@ -266,6 +266,36 @@ def stretch(
     return pitch_motif
 
 
+
+# repeat pitch motifs in harmonies -----------------------------
+
+def adapt(
+        pitch_motif: PitchLine,
+        duration_motif: DurationLine,
+        harmonies: List[List[PitchClass]],
+        durations: DurationLine,
+        steps: List[int],
+    ) -> List[PitchLine]:
+
+    """
+    Repeat a pitch motif over consecutive harmonies.
+    """
+
+    segments = _segment(pitch_motif, duration_motif, durations)
+    groups = []
+
+    for i, segment in enumerate(segments):
+        if not segment:
+            continue
+
+        harmony = harmonies[i]
+        group = [transpose(segment, harmony, step) for step in steps]
+        groups.append(group)
+
+    motifs = [list(motif) for motif in product(*groups)]
+    return motifs
+
+
 def _segment(
         pitch_motif: PitchLine,
         duration_motif: DurationLine,
