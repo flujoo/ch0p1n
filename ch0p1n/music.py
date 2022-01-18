@@ -1,6 +1,6 @@
 import music21
 from typing import List
-from ch0p1n.motif import PitchLine, DurationLine
+from ch0p1n.motif import PitchLine, DurationLine, to_notation_lines
 
 
 
@@ -26,7 +26,7 @@ def _to_stream(
             duration = abs(duration) # see `elaborate`
             duration = music21.duration.Duration(duration)
 
-            if isinstance(item, int):
+            if isinstance(item, (int, str)):
                 construct = music21.note.Note
             elif isinstance(item, list):
                 construct = music21.chord.Chord
@@ -65,6 +65,8 @@ def show(
     >>> duration_lines = [[1, 1], [1, 1]]
     >>> show(pitch_lines, duration_lines)
     """
+
+    pitch_lines = to_notation_lines(pitch_lines, key)
     
     # convert `key` and `meter` to music21 objects
     key = music21.key.KeySignature(key)
