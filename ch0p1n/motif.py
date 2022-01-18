@@ -670,6 +670,54 @@ def _to_notations(pitch: Pitch) -> List[str]:
     return notations
 
 
+def _to_notation(
+        pitch: Pitch,
+        scale: List[str]
+    ) -> Union[Pitch, str]:
+    
+    """
+    Convert the given pitch to a notation.
+    """
+
+    notations = _to_notations(pitch)
+
+    notations = [
+        notation for notation in notations
+        if notation[:-1] in scale
+    ]
+
+    if notations:
+        notation = notations[0]
+        return notation
+    else:
+        return pitch
+
+
+def to_notation_lines(
+        pitch_lines: List[PitchLine],
+        key: int
+    ) -> list:
+
+    """
+    Convert pitches to notations in the given pitch lines.
+    """
+
+    pitch_lines = deepcopy(pitch_lines)
+    scale = _get_scale(key)
+
+    for i, line in enumerate(pitch_lines):
+        for j, item in enumerate(line):
+            if isinstance(item, int):
+                pitch_lines[i][j] = _to_notation(item, scale)
+            elif isinstance(item, list):
+                pitch_lines[i][j] = [
+                    _to_notation(pitch, scale)
+                    for pitch in item
+                ]
+
+    return pitch_lines
+
+
 
 # fragment motifs ----------------------------------------------
 
