@@ -265,7 +265,6 @@ class TestFragment(unittest.TestCase):
     def test(self):
         pitch_motif = [60, 61, 62, 63]
         duration_motif = [1, 2, 1/2, 1/2]
-        out = fragment(pitch_motif, duration_motif, end = 1,
-            ratio = 1/2)
+        out = fragment(pitch_motif, duration_motif, 0, 1, 1/2)
         expected = ([60, 61], [1, 1])
         self.assertEqual(out, expected)

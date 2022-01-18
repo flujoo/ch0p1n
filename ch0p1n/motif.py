@@ -615,8 +615,8 @@ def divide(
 def fragment(
         pitch_motif: PitchLine,
         duration_motif: DurationLine,
-        start: int = 0,
-        end: int = -1,
+        start: int,
+        end: int,
         ratio: Union[float, int, None] = None,
         fit: str = 'right' # 'left'
     ) -> Tuple[PitchLine, DurationLine]:
