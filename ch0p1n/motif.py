@@ -248,6 +248,24 @@ def lead(
     return motifs
 
 
+def stretch(
+        pitch_motif: PitchLine,
+        start: int,
+        end: int,
+        scale: List[PitchClass],
+        step: int
+    ) -> PitchLine:
+
+    """
+    Move certain part of a pitch motif.
+    """
+
+    part = pitch_motif[start:end+1]
+    part = transpose(part, scale, step)
+    pitch_motif = pitch_motif[:start] + part + pitch_motif[end+1:]
+    return pitch_motif
+
+
 
 # modify and access pitches ------------------------------------
 

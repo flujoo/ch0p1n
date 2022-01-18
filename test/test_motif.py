@@ -7,6 +7,7 @@ from ch0p1n.motif import (
     _replace,
     rescale,
     transpose,
+    stretch,
     _access,
     is_complete,
     is_similar,
@@ -94,6 +95,15 @@ class TestTranspose(unittest.TestCase):
         scale = [0, 2, 4, 5, 7, 9, 11]
         out = transpose(self.motif, scale, 1)
         expected = [62, [64, 64], None]
+        self.assertEqual(out, expected)
+
+
+class TestStretch(unittest.TestCase):
+    def test(self):
+        pitch_motif = [60, [62, 64], 65]
+        scale = list(range(12))
+        out = stretch(pitch_motif, 1, 2, scale, 1)
+        expected = [60, [63, 65], 66]
         self.assertEqual(out, expected)
 
 
