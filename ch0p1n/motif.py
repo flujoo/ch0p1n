@@ -693,16 +693,15 @@ def _to_notation(
         return pitch
 
 
-def to_notation_lines(
+def _to_notation_lines(
         pitch_lines: List[PitchLine],
         key: int
-    ) -> list:
+    ) -> None:
 
     """
     Convert pitches to notations in the given pitch lines.
     """
 
-    pitch_lines = deepcopy(pitch_lines)
     scale = _get_scale(key)
 
     for i, line in enumerate(pitch_lines):
@@ -714,8 +713,6 @@ def to_notation_lines(
                     _to_notation(pitch, scale)
                     for pitch in item
                 ]
-
-    return pitch_lines
 
 
 

@@ -1,6 +1,7 @@
 import music21
 from typing import List
-from ch0p1n.motif import PitchLine, DurationLine, to_notation_lines
+from copy import deepcopy
+from ch0p1n.motif import PitchLine, DurationLine, _to_notation_lines
 
 
 
@@ -66,7 +67,8 @@ def show(
     >>> show(pitch_lines, duration_lines)
     """
 
-    pitch_lines = to_notation_lines(pitch_lines, key)
+    pitch_lines = deepcopy(pitch_lines)
+    _to_notation_lines(pitch_lines, key)
     
     # convert `key` and `meter` to music21 objects
     key = music21.key.KeySignature(key)
