@@ -8,6 +8,7 @@ from ch0p1n.motif import (
     rescale,
     transpose,
     stretch,
+    _segment,
     _access,
     is_complete,
     is_similar,
@@ -104,6 +105,16 @@ class TestStretch(unittest.TestCase):
         scale = list(range(12))
         out = stretch(pitch_motif, 1, 2, scale, 1)
         expected = [60, [63, 65], 66]
+        self.assertEqual(out, expected)
+
+
+class Test_segment(unittest.TestCase):
+    def test(self):
+        pitch_motif = [60, 61, 62, 63]
+        duration_motif = [1, 8, 1, 3]
+        durations = [2, 2, 2, 2, 2, 2, 2]
+        out = _segment(pitch_motif, duration_motif, durations)
+        expected = [[60, 61], [], [], [], [62], [63], []]
         self.assertEqual(out, expected)
 
 

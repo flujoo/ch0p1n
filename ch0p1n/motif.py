@@ -266,6 +266,45 @@ def stretch(
     return pitch_motif
 
 
+def _segment(
+        pitch_motif: PitchLine,
+        duration_motif: DurationLine,
+        durations: DurationLine
+    ) -> List[PitchLine]:
+
+    """
+    Segment a pitch motif according to the given durations.
+    """
+
+    motifs = []
+    motif = []
+
+    j = 0
+    current = durations[j]
+    accum = 0
+
+    for i, duration in enumerate(duration_motif):
+        motif.append(pitch_motif[i])
+        tmp = accum + duration
+
+        if tmp < current: 
+            accum = tmp
+        else:
+            while tmp >= current:
+                tmp = tmp - current
+                motifs.append(motif)
+                motif = []
+                j = j + 1
+                current = durations[j]
+
+                if tmp < current:
+                    accum = tmp
+                    break
+
+    motifs.append(motif)
+    return motifs
+
+
 
 # modify and access pitches ------------------------------------
 
