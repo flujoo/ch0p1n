@@ -41,7 +41,8 @@ def _reify(scale: List[PitchClass]) -> List[Pitch]:
 def _move(
         pitch: Optional[Pitch],
         scale: List[Pitch], # reified
-        step: Optional[int] # for `elaborate`
+        step: Optional[int], # for `elaborate`
+        error: bool = False
     ) -> Optional[Pitch]:
 
     """
@@ -54,8 +55,10 @@ def _move(
 
     if pitch not in scale:
         if step == 0:
-            # rather than trigger an error
-            return None
+            if error:
+                raise Exception('Pitch is not on the scale')
+            else:
+                return None
         else:
             # insert `pitch` into `scale`
             scale.append(pitch)
