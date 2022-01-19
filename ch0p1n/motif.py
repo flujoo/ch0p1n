@@ -61,7 +61,8 @@ def _move(
                 return None
         else:
             # insert `pitch` into `scale`
-            scale.append(pitch)
+            # do not use `.append()`
+            scale = scale + [pitch] 
             scale.sort()
 
     i = scale.index(pitch)
