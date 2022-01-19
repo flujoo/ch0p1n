@@ -15,6 +15,7 @@ from ch0p1n.motif import (
     is_complete,
     is_similar,
     elaborate,
+    reduce,
     divide,
     fragment
 )
@@ -287,6 +288,15 @@ class TestElaborate(unittest.TestCase):
             [[80, 81], [80, 81], None, 77, None],
             [2/3, 2/3, 2/3, 1, 1]
         )
+        self.assertEqual(out, expected)
+
+
+class TestReduce(unittest.TestCase):
+    def test(self):
+        pitch_motif = [80, 79, 77, 76, 77, None]
+        duration_motif = [1.5, 1/6, 1/6, 1/6, 1, 1]
+        out = reduce(pitch_motif, duration_motif, 1, 3, 'left')
+        expected = ([80, 77, None], [2, 1, 1])
         self.assertEqual(out, expected)
 
 

@@ -699,6 +699,32 @@ def elaborate(
     return pitch_motif, duration_motif
 
 
+def reduce(
+        pitch_motif: PitchLine,
+        duration_motif: DurationLine,
+        start: int,
+        end: int,
+        position: str # 'left', 'right'
+    ) -> Tuple[PitchLine, DurationLine]:
+
+    """
+    Reduce a motif.
+    """
+
+    # add the reduced duration to the given position
+    duration = sum(duration_motif[start:end+1])
+    duration_motif = deepcopy(duration_motif)
+    
+    if position == 'left':
+        duration_motif[start-1] = duration_motif[start-1] + duration
+    elif position == 'right':
+        duration_motif[end+1] = duration_motif[end+1] + duration
+
+    duration_motif = duration_motif[:start] + duration_motif[end+1:]
+    pitch_motif = pitch_motif[:start] + pitch_motif[end+1:]
+    return pitch_motif, duration_motif
+
+
 
 # fragment motifs ----------------------------------------------
 
