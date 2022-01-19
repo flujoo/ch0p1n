@@ -188,6 +188,35 @@ def rescale(
     return motif
 
 
+def _transpose(
+        pitch_motif: PitchLine,
+        scale: List[Pitch], # reified
+        step: int,
+        error: bool = True
+    ) -> PitchLine:
+
+    """
+    Transpose a pitch motif along a given scale
+    by a certain number of steps.
+    """
+
+    try:
+        pitches = _extract(pitch_motif)
+
+        pitches = [
+            _move(pitch, scale, step, error)
+            for pitch in pitches
+        ]
+
+        motif = _replace(pitch_motif, pitches)
+    
+    # for 0 step
+    except:
+        motif = []
+
+    return motif
+
+
 def transpose(
         pitch_motif: PitchLine,
         scale: List[PitchClass],
@@ -200,14 +229,7 @@ def transpose(
     """
     
     scale = _reify(scale)
-    pitches = _extract(pitch_motif)
-
-    pitches = [
-        _move(pitch, scale, step)
-        for pitch in pitches
-    ]
-
-    motif = _replace(pitch_motif, pitches)
+    motif = _transpose(pitch_motif, scale, step, False)
     return motif
 
 
