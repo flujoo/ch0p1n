@@ -7,6 +7,7 @@ from ch0p1n.motif import (
     _replace,
     rescale,
     transpose,
+    lead,
     stretch,
     adapt,
     _segment,
@@ -97,6 +98,18 @@ class TestTranspose(unittest.TestCase):
         scale = [0, 2, 4, 5, 7, 9, 11]
         out = transpose(self.motif, scale, 1)
         expected = [62, [64, 64], None]
+        self.assertEqual(out, expected)
+
+
+class TestLead(unittest.TestCase):
+    def test(self):
+        pitch_motif = [55, 60, 64, 67]
+        harmony = [2, 7, 11] # G
+        out = lead(pitch_motif, harmony, [0, 1])
+        expected = [
+            [55, 62, 67, 71],
+            [59, 62, 67, 71]
+        ]
         self.assertEqual(out, expected)
 
 
