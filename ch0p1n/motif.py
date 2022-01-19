@@ -315,11 +315,20 @@ def adapt(
             continue
 
         harmony = _reify(harmonies[i])
-        group = [_transpose(segment, harmony, step) for step in steps]
-        group = [seg for seg in group if seg]
-        groups.append(group)
 
-    motifs = [list(chain(*segs)) for segs in product(*groups)]
+        variants = [
+            _transpose(segment, harmony, step)
+            for step in steps
+        ]
+
+        variants = [variant for variant in variants if variant]
+        groups.append(variants)
+
+    motifs = [
+        list(chain(*variants))
+        for variants in product(*groups)
+    ]
+
     return motifs
 
 
