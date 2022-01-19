@@ -337,6 +337,7 @@ def _segment(
     motif = []
 
     j = 0
+    l = len(durations) - 1
     current = durations[j]
     accum = 0
 
@@ -351,8 +352,12 @@ def _segment(
                 tmp = tmp - current
                 motifs.append(motif)
                 motif = []
-                j = j + 1
-                current = durations[j]
+
+                if j < l:
+                    j = j + 1
+                    current = durations[j]
+                else:
+                    break
 
                 if tmp < current:
                     accum = tmp
