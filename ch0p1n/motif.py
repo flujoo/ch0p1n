@@ -4,7 +4,7 @@ Elaborate and repeat (vary) motifs.
 
 from typing import Union, List, Optional, Dict, Tuple, Any
 from copy import deepcopy
-from itertools import product
+from itertools import product, chain
 
 Pitch = int
 PitchClass = int
@@ -319,7 +319,7 @@ def adapt(
         group = [seg for seg in group if seg]
         groups.append(group)
 
-    motifs = [list(motif) for motif in product(*groups)]
+    motifs = [list(chain(*segs)) for segs in product(*groups)]
     return motifs
 
 
