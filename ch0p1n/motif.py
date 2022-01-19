@@ -313,8 +313,9 @@ def adapt(
         if not segment:
             continue
 
-        harmony = harmonies[i]
-        group = [transpose(segment, harmony, step) for step in steps]
+        harmony = _reify(harmonies[i])
+        group = [_transpose(segment, harmony, step) for step in steps]
+        group = [seg for seg in group if seg]
         groups.append(group)
 
     motifs = [list(motif) for motif in product(*groups)]
