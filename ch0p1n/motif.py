@@ -238,7 +238,8 @@ def lead(
         pitch_motif: PitchLine,
         harmony: List[PitchClass],
         steps: List[int] = [-1, 0, 1],
-        complete: bool = True
+        complete: bool = True,
+        similar: Optional[str] = 'direction'
     ) -> List[PitchLine]:
     
     """
@@ -270,6 +271,12 @@ def lead(
         _replace(pitch_motif, list(pitch_group))
         for pitch_group in pitch_groups
     ]
+
+    if similar:
+        motifs = [
+            motif for motif in motifs
+            if is_similar(motif, pitch_motif, similar)
+        ]
 
     return motifs
 
