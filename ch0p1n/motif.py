@@ -311,7 +311,7 @@ def thread(
     ) -> List[PitchLine]:
 
     """
-    Repeat a pitch motif over consecutive harmonies.
+    Repeat a pitch motif in consecutive harmonies.
     """
 
     segments = _segment(pitch_motif, duration_motif, durations)
