@@ -9,7 +9,7 @@ from ch0p1n.motif import (
     transpose,
     lead,
     stretch,
-    adapt,
+    thread,
     _segment,
     _access,
     is_complete,
@@ -123,14 +123,14 @@ class TestStretch(unittest.TestCase):
         self.assertEqual(out, expected)
 
 
-class TestAdapt(unittest.TestCase):
+class TestThread(unittest.TestCase):
     def test(self):
         pitch_motif = [61, 61, 67, 67]
         duration_motif = [2, 2, 2, 2]
         harmonies = [[0, 4, 7], [2, 7, 11]]
         durations = [3, 5]
         steps = [-1, 0]
-        out = adapt(pitch_motif, duration_motif, harmonies,
+        out = thread(pitch_motif, duration_motif, harmonies,
             durations, steps)
         expected = [
             [60, 60, 62, 62],

@@ -302,7 +302,7 @@ def stretch(
 
 # repeat pitch motifs in harmonies -----------------------------
 
-def adapt(
+def thread(
         pitch_motif: PitchLine,
         duration_motif: DurationLine,
         harmonies: List[List[PitchClass]],
