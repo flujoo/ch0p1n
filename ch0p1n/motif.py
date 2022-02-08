@@ -758,13 +758,7 @@ def divide(
 
         if residual <= 0:
             dm.append(duration)
-
-            if residual == 0:
-                motif = pm, dm
-                motifs.append(motif)
-                pm = []
-                dm = []
-
+        
         else:
             last = unit - current
             dm.append(last)
@@ -781,11 +775,11 @@ def divide(
 
             dm = [residual + unit]
 
-            if residual == 0:
-                motif = pm, dm
-                motifs.append(motif)
-                pm = []
-                dm = []
+        if residual == 0:
+            motif = pm, dm
+            motifs.append(motif)
+            pm = []
+            dm = []
 
     return motifs
 
