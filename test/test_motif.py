@@ -321,6 +321,11 @@ class TestDivide(unittest.TestCase):
         ]
         self.assertEqual(out, expected)
 
+    def test_long(self):
+        out = divide([90], [3], 3)
+        expected = [([90], [1])] * 3
+        self.assertEqual(out, expected)
+
 
 class TestFragment(unittest.TestCase):
     def test(self):

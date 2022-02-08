@@ -733,42 +733,59 @@ def divide(
         duration_motif: DurationLine,
         n: int
     ) -> List[Tuple[PitchLine, DurationLine]]:
-    
+
     """
     Divide a motif into parts of equal durations.
     """
 
-    # the length of each part
-    l = sum(duration_motif) / n
-
+    # store the generated parts
     motifs = []
-    # current motif
+
+    # the duration of each part
+    unit = sum(duration_motif) / n
+
+    # working motif
     pm = []
     dm = []
 
     for i, duration in enumerate(duration_motif):
-        # check if to start new motif
-        l_dm = sum(dm)
-        l_d = l_dm + duration
+        current = sum(dm)
+        tmp = current + duration
+        residual = tmp - unit
 
-        if l_d <= l:
-            pm.append(pitch_motif[i])
+        pitch = pitch_motif[i]
+        pm.append(pitch)
+
+        if residual <= 0:
             dm.append(duration)
-            if l_d == l:
+
+            if residual == 0:
                 motif = pm, dm
                 motifs.append(motif)
                 pm = []
                 dm = []
+
         else:
-            d1 = l - l_dm
-            d2 = duration - d1
-            pitch = pitch_motif[i]
-            pm.append(pitch)
-            dm.append(d1)
+            last = unit - current
+            dm.append(last)
             motif = pm, dm
             motifs.append(motif)
             pm = [pitch]
-            dm = [d2]
+            residual = residual - unit
+
+            while residual > 0:  
+                dm = [unit]
+                motif = pm, dm
+                motifs.append(motif)
+                residual = residual - unit
+
+            dm = [residual + unit]
+
+            if residual == 0:
+                motif = pm, dm
+                motifs.append(motif)
+                pm = []
+                dm = []
 
     return motifs
 
